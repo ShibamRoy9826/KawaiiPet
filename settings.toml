@@ -1,0 +1,10 @@
+[sounds]
+bgm = false
+sfx = true
+
+[general]
+pet = 0
+map = 2
+
+[game]
+highscore = 570
