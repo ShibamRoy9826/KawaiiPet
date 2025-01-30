@@ -43,12 +43,12 @@ The dependencies include:
 </h2>
 There are different type of controls for doing the same thing, just for simplicity and a user friendly behaviour.
 
-To select upper option --> k,up arrow key, scroll up
-To select bottom option --> j,down arrow key, scroll down
-Choose an option --> Press enter, left click(anywhere on screen)
-Move player to left --> Press h or left arrow key
-Move player to right --> Press l or right arrow key
-To open up menus -> press Esc
+- To select upper option --> k,up arrow key, scroll up
+- To select bottom option --> j,down arrow key, scroll down
+- Choose an option --> Press enter, left click(anywhere on screen)
+- Move player to left --> Press h or left arrow key
+- Move player to right --> Press l or right arrow key
+- To open up menus -> press Esc
 
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
