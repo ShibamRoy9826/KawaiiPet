@@ -73,6 +73,7 @@ selectedColor=(137, 180, 250)
 ## SFX
 selectChange=pg.mixer.Sound("audio/select.mp3")
 pressEnter=pg.mixer.Sound("audio/selectConfirm.mp3")
+eat=pg.mixer.Sound("audio/eat.mp3")
 
 ######################################## Extra functions ######################################
 
@@ -131,12 +132,13 @@ def selectOption()->None:
             menuType=3 #Help
     elif menuType==2:
         if SettingsBtnArr[0]==1:
-            PET_NUM+=1
-            if PET_NUM==3:
-                PET_NUM=0
+            PET_NUM=0
+            # PET_NUM+=1
+            # if PET_NUM==2:
+            #     PET_NUM=0
         elif SettingsBtnArr[1]==1:
             MAP_NUM+=1
-            if MAP_NUM==3:
+            if MAP_NUM==2:
                 MAP_NUM=0
 
         elif SettingsBtnArr[2]==1:
@@ -161,7 +163,9 @@ def selectOption()->None:
         if activitiesBtnsArr[0]:
             menuType=6
         elif activitiesBtnsArr[1]:
-            menuType=0
+            pet.showAnim("images/Pets/KawaiiDog/KawaiiDog-feed.png",75)
+            eat.play()
+            menuType=1
         elif activitiesBtnsArr[2]:
             pet.showAnim("images/Pets/KawaiiDog/KawaiiDog-petting.png")
             menuType=1
@@ -344,7 +348,7 @@ def petGame(screen:pg.surface.Surface)->None:
         b.render(screen,BONE_SPEED)
         if b.y > (HEIGHT-32-30):
             bones.remove(b)
-            bonePoints-=10
+            bonePoints-=20
 
         if pet.rect.colliderect(b.rect):
             boneSound.play()
@@ -471,14 +475,37 @@ while running:
                     activitiesBtnsArr=selectUp(activitiesBtnsArr)
 
             elif event.key in [pg.K_LEFT,pg.K_h]:
-                if menuType==6 or menuType==1:
-                    if pet.x-PLAYER_SPEED>0:
-                        moveLeft=True
 
+                if menuType==6:
+                    if pet.x-PLAYER_SPEED>-pet.width*SCALE:
+                        pet.x-=PLAYER_SPEED
+                    else:
+                        if not map:
+                            map=True
+                            pet.x=128*SCALE-pet.width*SCALE
+                elif menuType==1:
+                    if pet.x-PLAYER_SPEED>-pet.width*SCALE:
+                        pet.x-=PLAYER_SPEED*PLAYER_SPEED_MULTIPLIER
+                    else:
+                        if not map:
+                            map=True
+                            pet.x=128*SCALE-pet.width*SCALE
             elif event.key in [pg.K_RIGHT,pg.K_l]:
-                if menuType==6 or menuType==1:
+                if menuType==6:
                     if pet.x+PLAYER_SPEED<128*SCALE:
-                        moveRight=True
+                        pet.x+=PLAYER_SPEED
+                    else:
+                        if map:
+                            map=False
+                            pet.x=0
+                elif menuType==1:
+                    if pet.x+PLAYER_SPEED<128*SCALE:
+                        pet.x+=PLAYER_SPEED*PLAYER_SPEED_MULTIPLIER
+                    else:
+                        if map:
+                            map=False
+                            pet.x=0
+
 
             ## Quit Event (2)
             elif event.key==pg.K_q:
@@ -496,11 +523,11 @@ while running:
                     menuType=4
         elif event.type==pg.KEYUP:
             if event.key in [pg.K_LEFT,pg.K_h]:
-                if menuType==6:
+                if menuType==6 or menuType==1:
                     moveLeft=False
 
             elif event.key in [pg.K_RIGHT,pg.K_l]:
-                if menuType==6:
+                if menuType==6 or menuType==1:
                     moveRight=False
 
         ## Scolling events
@@ -546,19 +573,25 @@ while running:
             petGameScale(False)
             petScaled=False
         startGame(screen)
-        if PLAY_BGM and musicStarted and (not map):
-            currMusic="audio/bgm/oceanWaves.mp3"
-            pg.mixer.music.stop()
-            pg.mixer.music.load(currMusic)
-            pg.mixer.music.play(loops=-1)
-            musicStarted=False
+        if PLAY_BGM and musicStarted:
+            if not map:
+                currMusic="audio/bgm/oceanWaves.mp3"
+                pg.mixer.music.stop()
+                pg.mixer.music.load(currMusic)
+                pg.mixer.music.play(loops=-1)
+                musicStarted=False
+            else:
+                currMusic="audio/bgm/menuBgm.mp3"
+                pg.mixer.music.stop()
+                pg.mixer.music.load(currMusic)
+                pg.mixer.music.play(loops=-1)
+                musicStarted=False
+
 
         if moveLeft:
-            if pet.x-PLAYER_SPEED>0:
-                pet.x-=PLAYER_SPEED
+            pet.x-=PLAYER_SPEED
         elif moveRight:
-            if pet.x-PLAYER_SPEED<128*SCALE-pet.width*SCALE*0.5:
-                pet.x+=PLAYER_SPEED
+            pet.x+=PLAYER_SPEED
     elif menuType==2:
         startSettings(screen)
     elif menuType==3:
@@ -570,6 +603,7 @@ while running:
     elif menuType==6:
         if not petScaled:
             petGameScale()
+            bones=[]
             petScaled=True
         petGame(screen)
         if moveLeft:

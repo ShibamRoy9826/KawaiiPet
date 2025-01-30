@@ -12,6 +12,6 @@ ESCAPE -> Menu;"
 
 
 BtnTexts=[">Start",">Settings",">Help"]
-pets=["Kawaii Dog","Cutie Cat","Rizzy Robot"]
-maps=["Beach","Winter Place","Home"]
+pets=["Kawaii Dog"]
+maps=["Home","Beach"]
 

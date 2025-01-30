@@ -4,7 +4,7 @@ sfx = true
 
 [general]
 pet = 0
-map = 2
+map = 1
 
 [game]
 highscore = 570
