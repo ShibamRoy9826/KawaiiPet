@@ -38,6 +38,15 @@ The dependencies include:
 
 - [toml](https://pypi.org/project/toml/)
 
+## To run locally
+I didn't make any binaries for it yet, but you can run the source code instead. Try running this in your terminal after you've installed the dependencies(You need git for this):
+```bash
+git clone https://github.com/ShibamRoy9826/KawaiiPet.git
+cd KawaiiPet
+python main.py
+```
+That should work if you have installed all dependencies. Please raise an issue though, if anything doesn't work.
+
 <h2>
     Controls <img src="https://github.com/Anmol-Baranwal/Cool-GIFs-For-GitHub/assets/74038190/7b282ec6-fcc3-4600-90a7-2c3140549f58" width="30">
 </h2>
